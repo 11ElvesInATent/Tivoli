@@ -20,8 +20,8 @@ file_til = '/public_html/billeder/'
 
 change = []
 
-run = False
-delete_everything = True
+run = True # runs the program
+delete_everything = False # if true, all files at the server gets deleted
 
 
 if run:
@@ -33,14 +33,12 @@ if run:
 				ftp.storbinary(f'STOR {ok.name}', file)
 
 		while True:
-			
 			ftp.voidcmd("NOOP")
 			fil_emner = os.listdir(file_path)
 
 			if change:
 				for billede in change:
 					ok = Path(path_lort+billede)
-					#sti_oversigt = 
 					with open(ok, 'rb') as file:
 						ftp.cwd(file_til)
 						ftp.storbinary(f'STOR {ok.name}', file)
