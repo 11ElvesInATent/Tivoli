@@ -9,40 +9,25 @@ import random
 from ftplib import FTP
 from pathlib import Path
 
-#device_friendly_name = "den gule lort"
 device_friendly_name = 'Living Room TV'
 
-path_tivoli = '/Users/gustavnortvig/desktop/tivoli/billeder/' # kilde til tom mappe som bliver fyldt med billeder MED stand-info
-path_lort = '/Users/gustavnortvig/desktop/tivoli/billeder_uden_lort/' # sammen som ovenfor, bare uden stand-info (rene billeder)
+path_tivoli = '/Users/gustavnortvig/desktop/tivoli/billeder_new/' # kilde til tom mappe som bliver fyldt med billeder MED stand-info
+path_lort = '/Users/gustavnortvig/desktop/tivoli/billeder_raw/' # sammen som ovenfor, bare uden stand-info (rene billeder)
 path_desk_tivoli = '/Desktop/tivoli/billeder/'
-ip_adress = '192.168.1.15'
+ip_adress = '999'
 
 file_til = '/public_html/billeder/'
 
-
-max_length = 3
 sov = 10 # sek mellem billeder
 ds = '.DS_Store'
 
 chromecasts = pychromecast.get_chromecasts()
 print([cc.device.friendly_name for cc in chromecasts])
-cast = next(cc for cc in chromecasts if cc.device.friendly_name == "Living Room TV")
-
-
-
-#chromecasts, browser = pychromecast.get_listed_chromecasts(friendly_names=[device_friendly_name])	
-
-
+cast = next(cc for cc in chromecasts if cc.device.friendly_name == device_friendly_name)
 
 cast.wait()
 
-
-#cast = chromecasts[0]
-
-#print(cast.cast_info.friendly_name)
 mc = cast.media_controller
-
-run = 0
 
 
 def updater(billede = None):
@@ -85,28 +70,8 @@ def updater(billede = None):
 
 def tegning(fra,til):
 	x = Image.open(fra)
-	Im = x.resize((100,100))
+	Im = x.resize((750,500))
 	Im.save(til)
-	
-	#img = Image.open(fra)
-
-	#img = img.transpose(Image.ROTATE_90)
-
-	#img = img.resize((1000,100), Image.LANCZOS)
-	'''
-	width, height = img.size
-
-	newsize = (width, int(height*black_space))
-
-	new_img = Image.new("RGB", newsize, (153,24,24))
-	new_img.paste(img, (0, 0))
-
-
-	draw = ImageDraw.Draw(new_img)
-	font = ImageFont.truetype("Algerian_Regular.ttf", 25)
-	draw.text((width*0.1, height*1.02),"Kom til fotoboden på 160",(255,255,255),font=font)
-	'''
-	#img.save(til)
 
 
 kevin = os.listdir(path_lort)
@@ -120,10 +85,7 @@ for bil in kevin:
 
 
 
-while run < 5:
-
-	run += 1
-
+while True:
 	fil_tivoli = os.listdir(path_tivoli)
 	fil_tivoli.remove(ds)
 	print(fil_tivoli)
@@ -146,7 +108,4 @@ while run < 5:
 		talley.pop(0)
 		talley.extend(q)
 		print('talley1: ',talley)
-
-	
-#pychromecast.discovery.stop_discovery(browser)
-mc.block_until_active()
+		
